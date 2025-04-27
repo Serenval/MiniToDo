@@ -114,6 +114,14 @@ header p {
   font-weight: 600;
 }
 
+.modal-header button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--gray);
+}
+
 .modal-form {
   display: flex;
   flex-direction: column;
