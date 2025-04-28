@@ -78,6 +78,51 @@ header p {
   background-color: var(--primary-light);
 }
 
+.filters-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  align-items: center;
+}
+
+.filter-btns {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.filter-btn {
+  background-color: transparent;
+  border: 1px solid var(--gray-light);
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.filter-btn.active {
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.search-container {
+  position: relative;
+}
+
+#search-input {
+  padding: 0.5rem 0.75rem 0.5rem 2rem;
+  border: 1px solid var(--gray-light);
+  border-radius: 0.25rem;
+  outline: none;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray);
+}
+
 .modal {
   position: fixed;
   top: 0;
