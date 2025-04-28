@@ -123,6 +123,19 @@ header p {
   color: var(--gray);
 }
 
+.empty-container {
+  text-align: center;
+  padding: 3rem 0;
+  color: var(--gray);
+}
+
+.empty-illustration {
+  max-width: 150px;
+  max-height: 150px;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
 .modal {
   position: fixed;
   top: 0;
