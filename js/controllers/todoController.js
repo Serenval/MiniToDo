@@ -1,6 +1,6 @@
-import { TodoList } from "../models/todoList";
-import { Storage } from "../models/storage";
-import { TodoView } from "../views/todoView";
+import { TodoList } from "../models/todoList.js";
+import { Storage } from "../models/storage.js";
+import { TodoView } from "../views/todoView.js";
 
 export class TodoController {
   constructor() {
