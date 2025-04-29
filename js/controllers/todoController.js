@@ -1,0 +1,36 @@
+import { TodoList } from "../models/todoList.js";
+import { Storage } from "../models/storage.js";
+import { TodoView } from "../views/todoView.js";
+
+export class TodoController {
+  constructor() {
+    this.todoList = new TodoList();
+    this.view = new TodoView();
+
+    this.loadTodoList();
+    this.initBindings();
+    this.renderTodoList();
+    console.log('TodoController constructor is running');
+  }
+
+  loadTodoList() {
+    const storedTodoList = Storage.getList();
+    this.todoList.list = storedTodoList;
+  }
+
+  initBindings() {
+    this.view.addTaskBtn.addEventListener('click', () => this.addTask());
+    this.view.taskInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        this.addTask();
+      }
+    });
+  }
+  renderTodoList() {
+    this.view.renderList(this.todoList.list);
+  }
+  addTask() {
+    console.log('added a task');
+  }
+}
+
