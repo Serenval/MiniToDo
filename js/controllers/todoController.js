@@ -10,6 +10,7 @@ export class TodoController {
     this.loadTodoList();
     this.initBindings();
     this.renderTodoList();
+    console.log('TodoController constructor is running');
   }
 
   loadTodoList() {

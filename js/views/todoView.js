@@ -4,7 +4,6 @@ export class TodoView {
     this.taskContainer = document.getElementById('task-container');
     this.taskInput = document.getElementById('task-input');
     this.addTaskBtn = document.getElementById('add-task-btn');
-    this.ui = new UIComponents();
   }
 
   renderList(list) {
@@ -21,7 +20,7 @@ export class TodoView {
   }
   renderItem(item) {
     const htmlItem = document.createElement('li');
-    htmlItem.classList.add('doto-item');
+    htmlItem.classList.add('todo-item');
     htmlItem.dataset.id = item.id;
 
     htmlItem.innerHTML = `
