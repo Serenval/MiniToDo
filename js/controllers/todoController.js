@@ -8,9 +8,7 @@ export class TodoController {
     this.view = new TodoView();
 
     this.loadTodoList();
-
     this.initBindings();
-
     this.renderTodoList();
   }
 
@@ -21,9 +19,17 @@ export class TodoController {
 
   initBindings() {
     this.view.addTaskBtn.addEventListener('click', () => this.addTask());
+    this.view.taskInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        this.addTask();
+      }
+    });
   }
   renderTodoList() {
-    this.view.renderList();
+    this.view.renderList(this.todoList.list);
+  }
+  addTask() {
+    console.log('added a task');
   }
 }
 

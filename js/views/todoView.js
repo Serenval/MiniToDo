@@ -1,4 +1,4 @@
-import { UIComponents } from "./UIComponents";
+import { UIComponents } from "./UIComponents.js";
 export class TodoView {
   constructor() {
     this.taskContainer = document.getElementById('task-container');
