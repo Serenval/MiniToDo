@@ -1,9 +1,8 @@
+// Reusable html components
 export class UIComponents {
   constructor() {
+    // modal container and its components
     this.modalContainer = document.getElementById('edit-modal');
-    this.inputTaskText = document.getElementById('edit-task-text');
-    this.actionCancelBtn = document.getElementById('cancel-btn');
-    this.actionSaveBtn = document.getElementById('save-btn');
   }
   static showModal() {
     this.modalContainer.classList.add('show');

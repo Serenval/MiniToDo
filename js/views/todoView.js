@@ -1,8 +1,10 @@
+import { UIComponents } from "./UIComponents";
 export class TodoView {
   constructor() {
     this.taskContainer = document.getElementById('task-container');
     this.taskInput = document.getElementById('task-input');
     this.addTaskBtn = document.getElementById('add-task-btn');
+    this.ui = new UIComponents();
   }
 
   renderList(list) {
