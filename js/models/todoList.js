@@ -11,4 +11,22 @@ export class TodoList {
     this.list.push(newItem);
     return newItem;
   }
+
+  getItemById(id) {
+    return this.list.find(item => item.id === id);
+  }
+
+  toggleItem(id) {
+    const item = this.getItemById(id);
+    if (item) {
+      return item.toggleComplete();
+    }
+    return null;
+  }
+  getCompletedItems() {
+    return this.list.filter(item => item.completed);
+  }
+  getActiveItems() {
+    return this.list.filter(item => !item.completed);
+  }
 }

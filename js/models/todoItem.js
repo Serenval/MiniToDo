@@ -5,6 +5,11 @@ export class TodoItem {
     this.completed = completed;
   }
 
+  toggleComplete() {
+    this.completed = !this.completed;
+    return this.completed;
+  }
+
   toJSON() {
     return {
       id: this.id,

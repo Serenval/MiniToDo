@@ -24,14 +24,15 @@ export class TodoView {
     this.emptyContainer.classList.remove('show');
   }
 
-  updateSummary(list) {
+  updateSummary(todoListView) {
+    const list = todoListView.list;
     if(list.length === 0) {
       this.summaryContainer.classList.remove('show');
       return;
     }
     this.summaryContainer.classList.add('show');
     const totalTasks = list.length;
-    const completedTasks = list.filter(task => task.completed).length;
+    const completedTasks = todoListView.getCompletedItems().length;
     const activeTasks = totalTasks - completedTasks;
 
     this.summaryContainer.innerHTML = `

@@ -25,10 +25,19 @@ export class TodoController {
         this.addTask();
       }
     });
+
+    this.view.taskContainer.addEventListener('change', e => {
+      if (e.target.classList.contains('task-checkbox')) {
+        const itemId = e.target.closest('.task-item').dataset.id;
+        this.todoList.toggleItem(itemId);
+        Storage.saveList(this.todoList.list);
+        this.view.updateSummary(this.todoList);
+      }
+    });
   }
   renderTodoList() {
     this.view.renderList(this.todoList.list);
-    this.view.updateSummary(this.todoList.list);
+    this.view.updateSummary(this.todoList);
   }
   addTask() {
     const taskText = this.view.taskInput.value.trim();
@@ -42,7 +51,7 @@ export class TodoController {
     this.view.toggleEmptyContainer(this.todoList.list);
     this.view.renderItem(newTask);
     this.view.taskInput.focus();
-    this.view.updateSummary(this.todoList.list);
+    this.view.updateSummary(this.todoList);
     console.log('added a task');
   }
 }
