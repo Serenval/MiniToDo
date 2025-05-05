@@ -28,6 +28,7 @@ export class TodoController {
   }
   renderTodoList() {
     this.view.renderList(this.todoList.list);
+    this.view.updateSummary(this.todoList.list);
   }
   addTask() {
     const taskText = this.view.taskInput.value.trim();
@@ -41,6 +42,7 @@ export class TodoController {
     this.view.toggleEmptyContainer(this.todoList.list);
     this.view.renderItem(newTask);
     this.view.taskInput.focus();
+    this.view.updateSummary(this.todoList.list);
     console.log('added a task');
   }
 }

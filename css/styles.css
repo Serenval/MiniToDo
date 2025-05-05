@@ -187,6 +187,17 @@ header p {
   color: var(--gray);
 }
 
+.summary-container {
+  display: none;
+  text-align: center;
+  padding: 2rem 0;
+  color: var(--gray);
+}
+
+.summary-container.show {
+  display: block;
+}
+
 .empty-container {
   display: none;
   text-align: center;

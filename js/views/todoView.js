@@ -5,6 +5,7 @@ export class TodoView {
     this.taskInput = document.getElementById('task-input');
     this.addTaskBtn = document.getElementById('add-task-btn');
     this.emptyContainer = document.getElementById('empty-state');
+    this.summaryContainer = document.getElementById('summary-container');
   }
 
   renderList(list) {
@@ -21,6 +22,24 @@ export class TodoView {
       return;
     }
     this.emptyContainer.classList.remove('show');
+  }
+
+  updateSummary(list) {
+    if(list.length === 0) {
+      this.summaryContainer.classList.remove('show');
+      return;
+    }
+    this.summaryContainer.classList.add('show');
+    const totalTasks = list.length;
+    const completedTasks = list.filter(task => task.completed).length;
+    const activeTasks = totalTasks - completedTasks;
+
+    this.summaryContainer.innerHTML = `
+      ${totalTasks} total task${totalTasks !== 1 ? 's' : ''} • 
+      ${completedTasks} completed • 
+      ${activeTasks} remaining
+    `;
+
   }
 
   renderItem(item) {
