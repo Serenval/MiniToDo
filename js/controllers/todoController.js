@@ -30,6 +30,17 @@ export class TodoController {
     this.view.renderList(this.todoList.list);
   }
   addTask() {
+    const taskText = this.view.taskInput.value.trim();
+
+    if(!taskText) {
+      return;
+    }
+    const newTask = this.todoList.addItem(taskText);
+    Storage.saveList(this.todoList.list);
+    this.view.taskInput.value = "";
+    this.view.toggleEmptyContainer(this.todoList.list);
+    this.view.renderItem(newTask);
+    this.view.taskInput.focus();
     console.log('added a task');
   }
 }

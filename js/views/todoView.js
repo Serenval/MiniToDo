@@ -9,27 +9,30 @@ export class TodoView {
 
   renderList(list) {
     this.taskContainer.innerHTML = "";
+    this.toggleEmptyContainer(list);
+    list.forEach(item => {
+      this.renderItem(item);
+    });
+  }
 
+  toggleEmptyContainer(list) {
     if(list.length === 0) {
       this.emptyContainer.classList.add('show');
       return;
     }
     this.emptyContainer.classList.remove('show');
-
-    list.forEach(item => {
-      this.renderItem(item);
-    });
   }
+
   renderItem(item) {
     const htmlItem = document.createElement('li');
-    htmlItem.classList.add('todo-item');
+    htmlItem.classList.add('task-item');
     htmlItem.dataset.id = item.id;
 
     htmlItem.innerHTML = `
-      <div class="todo-item-content">
-        <input type="checkbox" class="toggle" ${item.completed ? 'checked' : ''}>
-        <span class="todo-text">${item.title}</span>
-        <input type="text" class="edit-input" value="${item.title}">
+      <input type="checkbox" class="task-checkbox" ${item.completed ? 'checked' : ''}>
+      <div class="task-content">
+        <div class="task-text">${item.title}</div>
+        <div class="task-meta">Created at 00:00:</div>
       </div>
     `;
     this.taskContainer.appendChild(htmlItem);
