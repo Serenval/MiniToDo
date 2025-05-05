@@ -124,9 +124,13 @@ header p {
 }
 
 .empty-container {
+  display: none;
   text-align: center;
   padding: 3rem 0;
   color: var(--gray);
+}
+.empty-container.show {
+  display: block;
 }
 
 .empty-illustration {
