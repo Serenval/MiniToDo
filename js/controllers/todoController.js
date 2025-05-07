@@ -28,10 +28,8 @@ export class TodoController {
 
     this.view.taskContainer.addEventListener('change', e => {
       if (e.target.classList.contains('task-checkbox')) {
-        const itemId = e.target.closest('.task-item').dataset.id;
-        this.todoList.toggleItem(itemId);
-        Storage.saveList(this.todoList.list);
-        this.view.updateSummary(this.todoList);
+        const taskId = e.target.closest('.task-item').dataset.id;
+        this.toggleTask(taskId);
       }
     });
     this.view.taskContainer.addEventListener('click', e => {
@@ -67,6 +65,11 @@ export class TodoController {
     this.todoList.deleteItem(taskId);
     Storage.saveList(this.todoList.list);
     this.renderTodoList();
+  }
+  toggleTask(taskId) {
+    this.todoList.toggleItem(taskId);
+    Storage.saveList(this.todoList.list);
+    this.view.updateSummary(this.todoList);
   }
 }
 
