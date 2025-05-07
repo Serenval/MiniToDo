@@ -1,4 +1,4 @@
-import { UIComponents } from "./UIComponents.js";
+import { modalView } from './modalView.js';
 export class TodoView {
   constructor() {
     this.taskContainer = document.getElementById('task-container');
@@ -6,6 +6,8 @@ export class TodoView {
     this.addTaskBtn = document.getElementById('add-task-btn');
     this.emptyContainer = document.getElementById('empty-state');
     this.summaryContainer = document.getElementById('summary-container');
+    
+    this.modal = new modalView('edit-modal');
   }
 
   renderList(list) {
@@ -70,5 +72,12 @@ export class TodoView {
       </div>
     `;
     this.taskContainer.appendChild(htmlItem);
+  }
+
+  showModal(task) {
+    this.modal.show(task);
+  }
+  hideModal() {
+    this.modal.hide();
   }
 }

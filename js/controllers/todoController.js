@@ -39,6 +39,13 @@ export class TodoController {
         this.removeTask(taskId);
       }
     });
+    this.view.taskContainer.addEventListener('click', e => {
+      const editBtn = e.target.closest('.edit-btn');
+      if (editBtn) {
+        const taskId = editBtn.closest('.task-item').dataset.id;
+        this.editTask(taskId);
+      }
+    });
         
 
   }
@@ -70,6 +77,12 @@ export class TodoController {
     this.todoList.toggleItem(taskId);
     Storage.saveList(this.todoList.list);
     this.view.updateSummary(this.todoList);
+  }
+  editTask(taskId) {
+    const task = this.todoList.list.find(task => task.id === taskId);
+    if (task) {
+      this.view.showModal(task);
+    }
   }
 }
 
