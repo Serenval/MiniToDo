@@ -12,6 +12,11 @@ export class TodoList {
     return newItem;
   }
 
+  deleteItem(id) {
+    this.list = this.list.filter(item => item.id !== id);
+    return this.list;
+  }
+
   getItemById(id) {
     return this.list.find(item => item.id === id);
   }

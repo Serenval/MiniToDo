@@ -34,6 +34,15 @@ export class TodoController {
         this.view.updateSummary(this.todoList);
       }
     });
+    this.view.taskContainer.addEventListener('click', e => {
+      const deleteBtn = e.target.closest('.delete-btn');
+      if (deleteBtn) {
+        const taskId = deleteBtn.closest('.task-item').dataset.id;
+        this.removeTask(taskId);
+      }
+    });
+        
+
   }
   renderTodoList() {
     this.view.renderList(this.todoList.list);
@@ -53,6 +62,11 @@ export class TodoController {
     this.view.taskInput.focus();
     this.view.updateSummary(this.todoList);
     console.log('added a task');
+  }
+  removeTask(taskId) {
+    this.todoList.deleteItem(taskId);
+    Storage.saveList(this.todoList.list);
+    this.renderTodoList();
   }
 }
 
