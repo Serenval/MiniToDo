@@ -46,11 +46,38 @@ export class TodoController {
         this.editTask(taskId);
       }
     });
+
+    this.view.filterBtns.forEach(btn => {
+      btn.addEventListener('click', e => {
+        
+        this.view.filterBtns.forEach(btn => btn.classList.remove('active'));
+        e.target.classList.add('active');
+        this.filterTasks(e.target.dataset.filter);
+      });
+    });
         
 
   }
+
+  filterTasks(filter) {
+    this.view.currentFilter = filter;
+    this.renderTodoList();
+  }
+
   renderTodoList() {
-    this.view.renderList(this.todoList.list);
+    let list;
+
+    switch (this.view.currentFilter) {
+      case 'active':
+        list = this.todoList.getActiveItems();
+        break;
+      case 'completed':
+        list = this.todoList.getCompletedItems();
+        break;
+      default:
+        list = this.todoList.getAllItems();
+    }
+    this.view.renderList(list);
     this.view.updateSummary(this.todoList);
   }
   addTask() {
@@ -77,6 +104,7 @@ export class TodoController {
     this.todoList.toggleItem(taskId);
     Storage.saveList(this.todoList.list);
     this.view.updateSummary(this.todoList);
+    this.renderTodoList();
   }
   editTask(taskId) {
     const task = this.todoList.list.find(task => task.id === taskId);

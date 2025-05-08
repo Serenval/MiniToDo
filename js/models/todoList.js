@@ -34,4 +34,7 @@ export class TodoList {
   getActiveItems() {
     return this.list.filter(item => !item.completed);
   }
+  getAllItems() {
+    return this.list;
+  }
 }

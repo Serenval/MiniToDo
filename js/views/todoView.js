@@ -6,6 +6,8 @@ export class TodoView {
     this.addTaskBtn = document.getElementById('add-task-btn');
     this.emptyContainer = document.getElementById('empty-state');
     this.summaryContainer = document.getElementById('summary-container');
+    this.filterBtns = document.querySelectorAll('.filter-btn');
+    this.currentFilter = null;
     
     this.modal = new modalView('edit-modal');
   }
