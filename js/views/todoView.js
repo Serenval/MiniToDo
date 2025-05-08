@@ -1,4 +1,5 @@
 import { modalView } from './modalView.js';
+import { confirmView } from './confirmView.js';
 export class TodoView {
   constructor() {
     this.taskContainer = document.getElementById('task-container');
@@ -10,12 +11,18 @@ export class TodoView {
     this.currentFilter = null;
     
     this.modal = new modalView('edit-modal');
+    this.dialogue = new confirmView('confirm-dialogue');
   }
 
-  // Observer Pattern
+  // Observer Pattern for Modal and Dialogue Confirm
   connectModalToController(todoController) {
     this.modal.setOnSave((taskId, newTitle) => {
       todoController.saveTask(taskId, newTitle);
+    });
+  }
+  connetDialogueToController(todoController) {
+    this.dialogue.setOnConfirm((taskId) => {
+      todoController.removeTask(taskId);
     });
   }
 
@@ -85,5 +92,9 @@ export class TodoView {
 
   showModal(task) {
     this.modal.show(task);
+  }
+
+  showConfirmDialogue(taskId) {
+    this.dialogue.show(taskId);
   }
 }

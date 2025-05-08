@@ -241,7 +241,8 @@ header p {
   opacity: 0.5;
 }
 
-.modal {
+.modal, 
+.confirm-dialogue {
   position: fixed;
   top: 0;
   left: 0;
@@ -256,13 +257,15 @@ header p {
   pointer-events: none;
   transition: opacity 0.3s;
 }
-.modal.show {
+.modal.show,
+.confirm-dialogue.show {
   display: flex;
   opacity: 1;
   pointer-events: auto
 }
 
-.modal-content {
+.modal-content,
+.dialogue-content {
   background-color: white;
   border-radius: 0.5rem;
   padding: 2rem;
@@ -271,7 +274,8 @@ header p {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
-.modal-header {
+.modal-header,
+.dialogue-content p {
   display: flex;
   justify-content: space-between;
   align-items: center;

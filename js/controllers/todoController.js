@@ -11,6 +11,7 @@ export class TodoController {
     this.initBindings();
     this.renderTodoList();
     this.view.connectModalToController(this);
+    this.view.connetDialogueToController(this);
   }
 
   loadTodoList() {
@@ -36,7 +37,7 @@ export class TodoController {
       const deleteBtn = e.target.closest('.delete-btn');
       if (deleteBtn) {
         const taskId = deleteBtn.closest('.task-item').dataset.id;
-        this.removeTask(taskId);
+        this.view.showConfirmDialogue(taskId);
       }
     });
     this.view.taskContainer.addEventListener('click', e => {
