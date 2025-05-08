@@ -6,6 +6,7 @@ export class modalView {
     this.closeBtn = this.modal.querySelector('#close-btn');
     this.saveBtn = this.modal.querySelector('#save-btn');
     this.currentTaskId = null;
+    this.onSave = null;
     
     this.initBindings();
   }
@@ -13,6 +14,12 @@ export class modalView {
   initBindings() {
     this.cancelBtn.addEventListener('click', () => this.hide());
     this.closeBtn.addEventListener('click', () => this.hide());
+    this.saveBtn.addEventListener('click', () => {
+      if (this.onSave) {
+        this.onSave(this.currentTaskId, this.getEditedValue());
+        this.hide();
+      }
+    });
   }
 
   show(task) {
@@ -25,6 +32,10 @@ export class modalView {
     this.modal.classList.remove('show');
     this.currentTaskId = null;
     this.editInput.value = '';
+  }
+
+  setOnSave(callback) {
+    this.onSave = callback;
   }
 
   getCurrentTaskId() {

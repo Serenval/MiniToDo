@@ -10,6 +10,13 @@ export class TodoView {
     this.modal = new modalView('edit-modal');
   }
 
+  // Observer Pattern
+  connectModalToController(todoController) {
+    this.modal.setOnSave((taskId, newTitle) => {
+      todoController.saveTask(taskId, newTitle);
+    });
+  }
+
   renderList(list) {
     this.taskContainer.innerHTML = "";
     this.toggleEmptyContainer(list);
@@ -76,8 +83,5 @@ export class TodoView {
 
   showModal(task) {
     this.modal.show(task);
-  }
-  hideModal() {
-    this.modal.hide();
   }
 }

@@ -10,7 +10,7 @@ export class TodoController {
     this.loadTodoList();
     this.initBindings();
     this.renderTodoList();
-    console.log('TodoController constructor is running');
+    this.view.connectModalToController(this);
   }
 
   loadTodoList() {
@@ -81,7 +81,15 @@ export class TodoController {
   editTask(taskId) {
     const task = this.todoList.list.find(task => task.id === taskId);
     if (task) {
-      this.view.showModal(task);
+      this.view.showModal(task, this);
+    }
+  }
+  saveTask(taskId, title) {
+    const task = this.todoList.list.find(task => task.id === taskId);
+    if (task) {
+      task.title = title;
+      Storage.saveList(this.todoList.list);
+      this.renderTodoList();
     }
   }
 }
