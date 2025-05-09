@@ -347,3 +347,13 @@ header p {
   border: none;
   color: white;
 }
+
+.dialogue-content p{
+  justify-content: center;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
