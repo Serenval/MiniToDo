@@ -56,6 +56,18 @@ export class TodoController {
         this.filterTasks(e.target.dataset.filter);
       });
     });
+
+    this.view.searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.trim();
+      if (query) {
+        this.view.searchText = query;
+        this.renderTodoList();
+      } else {
+        this.view.searchText = "";
+        this.renderTodoList();
+      }
+    });
+
         
 
   }
@@ -77,6 +89,10 @@ export class TodoController {
         break;
       default:
         list = this.todoList.getAllItems();
+    }
+
+    if (this.view.searchText.length > 0) {
+      list = this.searchItems(this.view.searchText, list);
     }
     this.view.renderList(list);
     this.view.updateSummary(this.todoList);
@@ -120,6 +136,11 @@ export class TodoController {
       Storage.saveList(this.todoList.list);
       this.renderTodoList();
     }
+  }
+
+  searchItems(query, list) {
+    const queryText = query.toLowerCase();
+    return list.filter(item => item.title.toLowerCase().includes(queryText));
   }
 }
 

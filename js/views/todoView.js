@@ -8,7 +8,9 @@ export class TodoView {
     this.emptyContainer = document.getElementById('empty-state');
     this.summaryContainer = document.getElementById('summary-container');
     this.filterBtns = document.querySelectorAll('.filter-btn');
+    this.searchInput = document.getElementById('search-input');
     this.currentFilter = null;
+    this.searchText = "";
     
     this.modal = new modalView('edit-modal');
     this.dialogue = new confirmView('confirm-dialogue');
