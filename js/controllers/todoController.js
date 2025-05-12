@@ -12,6 +12,7 @@ export class TodoController {
     this.renderTodoList();
     this.view.connectModalToController(this);
     this.view.connetDialogueToController(this);
+    this.initDragAndDrop();
   }
 
   loadTodoList() {
@@ -141,6 +142,14 @@ export class TodoController {
   searchItems(query, list) {
     const queryText = query.toLowerCase();
     return list.filter(item => item.title.toLowerCase().includes(queryText));
+  }
+
+  initDragAndDrop() {
+    this.view.initDragAndDrop();
+    this.view.onReorder = (oldIndex, newIndex) => {
+      this.todoList.reorderItems(oldIndex, newIndex);
+      Storage.saveList(this.todoList.list);
+    }
   }
 }
 

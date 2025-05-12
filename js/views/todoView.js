@@ -11,6 +11,8 @@ export class TodoView {
     this.searchInput = document.getElementById('search-input');
     this.currentFilter = null;
     this.searchText = "";
+    this.onReorder = null;
+    this.draggedItem = null;
     
     this.modal = new modalView('edit-modal');
     this.dialogue = new confirmView('confirm-dialogue');
@@ -63,11 +65,74 @@ export class TodoView {
 
   }
 
+  initDragAndDrop() {
+    this.taskContainer.addEventListener('dragstart', this.handleDragStart.bind(this));
+    this.taskContainer.addEventListener('dragenter', this.handleDragEnter.bind(this));
+    this.taskContainer.addEventListener('dragover', this.handleDragOver.bind(this));
+    this.taskContainer.addEventListener('dragleave', this.handleDragLeave.bind(this));
+    this.taskContainer.addEventListener('drop', this.handleDrop.bind(this));
+    this.taskContainer.addEventListener('dragend', this.handleDragEnd.bind(this));
+  }
+
+  handleDragStart(e) {
+    const taskItem = e.target.closest('.task-item');
+    if (!taskItem) return;
+
+    this.draggedItem = taskItem;
+    taskItem.classList.add('.dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  }
+
+  handleDragEnter(e) {
+    e.preventDefault();
+    const taskItem = e.target.closest('task-item');
+    if (taskItem && taskItem !== this.draggedItem) {
+      taskItem.classList.add('drag-over');
+    }
+  }
+
+  handleDragOver(e) {
+    e.preventDefault();
+    const taskItem = e.target.closest('.task-item');
+    if (!taskItem || taskItem === this.draggedItem) return;
+
+    const draggedIndex = [this.taskContainer.children].indexOf(this.draggedItem);
+    const targetIndex = [this.taskContainer.children].indexOf(taskItem);
+
+    if (draggedIndex < targetIndex) {
+      taskItem.parentNode.insertBefore(this.draggedItem, taskItem.nextSibling);
+    } else {
+      taskItem.parentNode.insertBefore(this.draggedItem, taskItem);
+    }
+  }
+
+  handleDragLeave(e) {
+    e.preventDefault();
+    const taskItem = e.target.closest('.task-item');
+    if (taskItem) {
+      taskItem.classList.remove('drag-over');
+    }
+  }
+
+  handleDrop(e) {
+    e.preventDefault();
+    if (this.onReorder) {
+      const oldIndex = [this.taskContainer.children].indexOf(this.draggedItem);
+      const newIndex = [this.taskContainer.children].indexOf(e.target.closest('.task-item'));
+      this.onReorder(oldIndex, newIndex);
+    }
+  }
+
+  handleDragEnd(e) {
+    this.draggedItem.classList.remove('dragging');
+    this.draggedItem = null;
+  }
+
   renderItem(item) {
     const htmlItem = document.createElement('li');
     htmlItem.classList.add('task-item');
     htmlItem.dataset.id = item.id;
-
+    htmlItem.draggable = true;
     htmlItem.innerHTML = `
       <input type="checkbox" class="task-checkbox" ${item.completed ? 'checked' : ''}>
       <div class="task-content">

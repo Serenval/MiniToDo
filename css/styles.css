@@ -134,6 +134,7 @@ header p {
   border-radius: 0.5rem;
   padding: 1rem;
   display: flex;
+  cursor: grab;
   align-items: center;
   gap: 1rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -144,6 +145,15 @@ header p {
 .task-item:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.task-item.dragging {
+  opacity: 0.5;
+  cursor: grabbing;
+}
+
+.task-item.drag-over {
+  border-top: 2px solid var(--primary);
 }
 
 .task-content {
