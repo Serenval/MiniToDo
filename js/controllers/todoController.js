@@ -147,8 +147,9 @@ export class TodoController {
   initDragAndDrop() {
     this.view.initDragAndDrop();
     this.view.onReorder = (oldIndex, newIndex) => {
-      this.todoList.reorderItems(oldIndex, newIndex);
+      this.todoList.list = this.todoList.reorderItems(oldIndex, newIndex);
       Storage.saveList(this.todoList.list);
+      this.renderTodoList();
     }
   }
 }

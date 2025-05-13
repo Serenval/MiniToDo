@@ -79,13 +79,16 @@ export class TodoView {
     if (!taskItem) return;
 
     this.draggedItem = taskItem;
-    taskItem.classList.add('.dragging');
+    taskItem.classList.add('dragging');
     e.dataTransfer.effectAllowed = 'move';
+
+    // (required for Firefox)
+    e.dataTransfer.setData('text/plain', taskItem.dataset.id);
   }
 
   handleDragEnter(e) {
     e.preventDefault();
-    const taskItem = e.target.closest('task-item');
+    const taskItem = e.target.closest('.task-item');
     if (taskItem && taskItem !== this.draggedItem) {
       taskItem.classList.add('drag-over');
     }
@@ -93,16 +96,21 @@ export class TodoView {
 
   handleDragOver(e) {
     e.preventDefault();
+    // The DataTransfer.dropEffect property controls the feedback the user is given during a drag and drop operation. It will affect which cursor is displayed while dragging.
+    e.dataTransfer.dropEffect = 'move';
     const taskItem = e.target.closest('.task-item');
     if (!taskItem || taskItem === this.draggedItem) return;
 
-    const draggedIndex = [this.taskContainer.children].indexOf(this.draggedItem);
-    const targetIndex = [this.taskContainer.children].indexOf(taskItem);
+    const mouseY = e.clientY;
+    const targetRect = taskItem.getBoundingClientRect();
+    const targetMiddle = targetRect.top + (targetRect.height / 2);
 
-    if (draggedIndex < targetIndex) {
-      taskItem.parentNode.insertBefore(this.draggedItem, taskItem.nextSibling);
-    } else {
+    if (mouseY < targetMiddle) {
+      // Insert before
       taskItem.parentNode.insertBefore(this.draggedItem, taskItem);
+    } else {
+      // Insert after
+      taskItem.parentNode.insertBefore(this.draggedItem, taskItem.nextSibling);
     }
   }
 
@@ -116,16 +124,30 @@ export class TodoView {
 
   handleDrop(e) {
     e.preventDefault();
-    if (this.onReorder) {
-      const oldIndex = [this.taskContainer.children].indexOf(this.draggedItem);
-      const newIndex = [this.taskContainer.children].indexOf(e.target.closest('.task-item'));
-      this.onReorder(oldIndex, newIndex);
+
+    document.querySelectorAll('.task-item.drag-over').forEach(item => {
+      item.classList.remove('drag-over');
+    });
+
+    if (this.onReorder && this.draggedItem) {
+      const taskItems = Array.from(this.taskContainer.children);
+      const oldIndex = taskItems.indexOf(this.draggedItem);
+      const newIndex = taskItems.indexOf(e.target.closest('.task-item')) || oldIndex;
+      
+      if (oldIndex !== newIndex) {
+        this.onReorder(oldIndex, newIndex);
+      }
     }
   }
 
   handleDragEnd(e) {
-    this.draggedItem.classList.remove('dragging');
-    this.draggedItem = null;
+    if (this.draggedItem) {
+      this.draggedItem.classList.remove('dragging');
+      this.draggedItem = null;
+    }
+    document.querySelectorAll('.task-item.drag-over').forEach(item => {
+      item.classList.remove('drag-over');
+    });
   }
 
   renderItem(item) {
