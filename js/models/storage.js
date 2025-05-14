@@ -16,7 +16,8 @@ export class Storage {
       const todoItem = new TodoItem(
         object.id,
         object.title,
-        object.completed
+        object.completed,
+        object.position
       );
       return todoItem;
     });

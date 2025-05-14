@@ -17,7 +17,7 @@ export class TodoController {
 
   loadTodoList() {
     const storedTodoList = Storage.getList();
-    this.todoList.list = storedTodoList;
+    this.todoList.list = storedTodoList.sort((a, b) => a.position - b.position);
   }
 
   initBindings() {
@@ -68,9 +68,6 @@ export class TodoController {
         this.renderTodoList();
       }
     });
-
-        
-
   }
 
   filterTasks(filter) {
@@ -80,24 +77,27 @@ export class TodoController {
 
   renderTodoList() {
     let list;
-
+    const sortedList = [...this.todoList.list].sort((a, b) => a.position - b.position);
+    
     switch (this.view.currentFilter) {
       case 'active':
-        list = this.todoList.getActiveItems();
+        list = sortedList.filter(item => !item.completed);
         break;
       case 'completed':
-        list = this.todoList.getCompletedItems();
+        list = sortedList.filter(item => item.completed);
         break;
       default:
-        list = this.todoList.getAllItems();
+        list = sortedList;
     }
 
     if (this.view.searchText.length > 0) {
       list = this.searchItems(this.view.searchText, list);
     }
+    
     this.view.renderList(list);
     this.view.updateSummary(this.todoList);
   }
+  
   addTask() {
     const taskText = this.view.taskInput.value.trim();
 
@@ -113,23 +113,27 @@ export class TodoController {
     this.view.updateSummary(this.todoList);
     console.log('added a task');
   }
+  
   removeTask(taskId) {
     this.todoList.deleteItem(taskId);
     Storage.saveList(this.todoList.list);
     this.renderTodoList();
   }
+  
   toggleTask(taskId) {
     this.todoList.toggleItem(taskId);
     Storage.saveList(this.todoList.list);
     this.view.updateSummary(this.todoList);
     this.renderTodoList();
   }
+  
   editTask(taskId) {
     const task = this.todoList.list.find(task => task.id === taskId);
     if (task) {
       this.view.showModal(task, this);
     }
   }
+  
   saveTask(taskId, title) {
     const task = this.todoList.list.find(task => task.id === taskId);
     if (task) {
@@ -147,10 +151,10 @@ export class TodoController {
   initDragAndDrop() {
     this.view.initDragAndDrop();
     this.view.onReorder = (oldIndex, newIndex) => {
-      this.todoList.list = this.todoList.reorderItems(oldIndex, newIndex);
+      console.log(`Controller reordering: ${oldIndex} -> ${newIndex}`);
+      this.todoList.reorderItems(oldIndex, newIndex);
       Storage.saveList(this.todoList.list);
       this.renderTodoList();
     }
   }
 }
-

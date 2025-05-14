@@ -15,7 +15,8 @@ export class TodoItem {
     return {
       id: this.id,
       title: this.title,
-      completed: this.completed
+      completed: this.completed,
+      position: this.position
     }
   }
 }

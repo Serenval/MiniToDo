@@ -82,7 +82,6 @@ export class TodoView {
     taskItem.classList.add('dragging');
     e.dataTransfer.effectAllowed = 'move';
 
-    // (required for Firefox)
     e.dataTransfer.setData('text/plain', taskItem.dataset.id);
   }
 
@@ -96,28 +95,13 @@ export class TodoView {
 
   handleDragOver(e) {
     e.preventDefault();
-    // The DataTransfer.dropEffect property controls the feedback the user is given during a drag and drop operation. It will affect which cursor is displayed while dragging.
     e.dataTransfer.dropEffect = 'move';
-    const taskItem = e.target.closest('.task-item');
-    if (!taskItem || taskItem === this.draggedItem) return;
-
-    const mouseY = e.clientY;
-    const targetRect = taskItem.getBoundingClientRect();
-    const targetMiddle = targetRect.top + (targetRect.height / 2);
-
-    if (mouseY < targetMiddle) {
-      // Insert before
-      taskItem.parentNode.insertBefore(this.draggedItem, taskItem);
-    } else {
-      // Insert after
-      taskItem.parentNode.insertBefore(this.draggedItem, taskItem.nextSibling);
-    }
   }
 
   handleDragLeave(e) {
     e.preventDefault();
     const taskItem = e.target.closest('.task-item');
-    if (taskItem) {
+    if (taskItem && taskItem !== this.draggedItem) {
       taskItem.classList.remove('drag-over');
     }
   }
@@ -125,17 +109,20 @@ export class TodoView {
   handleDrop(e) {
     e.preventDefault();
 
-    document.querySelectorAll('.task-item.drag-over').forEach(item => {
-      item.classList.remove('drag-over');
-    });
-
     if (this.onReorder && this.draggedItem) {
-      const taskItems = Array.from(this.taskContainer.children);
+      const taskItems = Array.from(this.taskContainer.querySelectorAll('.task-item'));
       const oldIndex = taskItems.indexOf(this.draggedItem);
-      const newIndex = taskItems.indexOf(e.target.closest('.task-item')) || oldIndex;
+      const targetItem = e.target.closest('.task-item');
       
-      if (oldIndex !== newIndex) {
-        this.onReorder(oldIndex, newIndex);
+      if (targetItem && targetItem !== this.draggedItem) {
+        
+        let newIndex = taskItems.indexOf(targetItem);
+        targetItem.parentNode.insertBefore(this.draggedItem, targetItem);
+
+        if (oldIndex !== newIndex) {
+          console.log(`Reordering from ${oldIndex} to ${newIndex}`);
+          this.onReorder(oldIndex, newIndex);
+        }
       }
     }
   }
