@@ -89,6 +89,11 @@ export class TodoView {
     e.preventDefault();
     const taskItem = e.target.closest('.task-item');
     if (taskItem && taskItem !== this.draggedItem) {
+      document.querySelectorAll('.task-item.drag-over').forEach(item => {
+        if (item !== taskItem) {
+          item.classList.remove('drag-over');
+        }
+      });
       taskItem.classList.add('drag-over');
     }
   }
@@ -101,7 +106,8 @@ export class TodoView {
   handleDragLeave(e) {
     e.preventDefault();
     const taskItem = e.target.closest('.task-item');
-    if (taskItem && taskItem !== this.draggedItem) {
+    const relatedTarget = e.relatedTarget;
+    if (taskItem && !taskItem.contains(relatedTarget)) {
       taskItem.classList.remove('drag-over');
     }
   }

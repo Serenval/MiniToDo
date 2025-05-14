@@ -150,6 +150,7 @@ header p {
 .task-item.dragging {
   opacity: 0.5;
   cursor: grabbing;
+  background-color: var(--gray-light);
 }
 
 .task-item.drag-over {
