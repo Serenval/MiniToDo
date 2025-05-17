@@ -17,8 +17,9 @@ export class Storage {
         object.id,
         object.title,
         object.completed,
-        object.position
+        object.position,
       );
+      todoItem.createdAt = new Date(object.createdAt);
       return todoItem;
     });
   }

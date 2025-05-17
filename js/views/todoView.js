@@ -144,6 +144,15 @@ export class TodoView {
   }
 
   renderItem(item) {
+    const options = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    };
     const htmlItem = document.createElement('li');
     htmlItem.classList.add('task-item');
     htmlItem.dataset.id = item.id;
@@ -152,7 +161,7 @@ export class TodoView {
       <input type="checkbox" class="task-checkbox" ${item.completed ? 'checked' : ''}>
       <div class="task-content">
         <div class="task-text">${item.title}</div>
-        <div class="task-meta">Created at 00:00:</div>
+        <div class="task-meta">${item.createdAt.toLocaleDateString('en-US', options)}</div>
       </div>
       <div class="task-actions">
         <button class="task-btn edit-btn">

@@ -4,6 +4,7 @@ export class TodoItem {
     this.title = title;
     this.completed = completed;
     this.position = position;
+    this.createdAt = new Date();
   }
 
   toggleComplete() {
@@ -16,7 +17,8 @@ export class TodoItem {
       id: this.id,
       title: this.title,
       completed: this.completed,
-      position: this.position
+      position: this.position,
+      createdAt: this.createdAt ,
     }
   }
 }
