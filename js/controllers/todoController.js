@@ -6,7 +6,7 @@ export class TodoController {
   constructor() {
     this.todoList = new TodoList();
     this.view = new TodoView();
-
+    this.settings = null;
     this.loadTodoList();
     this.initBindings();
     this.renderTodoList();
@@ -16,8 +16,17 @@ export class TodoController {
   }
 
   loadTodoList() {
-    const storedTodoList = Storage.getList();
-    this.todoList.list = storedTodoList.sort((a, b) => a.position - b.position);
+    let list;
+    if (this.isFirstRun()) {
+      list = Storage.getSampleTasks();
+      Storage.saveList(list);
+      // Update settings
+      this.settings.firstRun = false;
+      Storage.saveSettings(this.settings);
+    } else {
+      list = Storage.getList();
+    }
+    this.todoList.list = list.sort((a, b) => a.position - b.position);
   }
 
   initBindings() {
@@ -156,5 +165,15 @@ export class TodoController {
       Storage.saveList(this.todoList.list);
       this.renderTodoList();
     }
+  }
+
+  isFirstRun() {
+    const settings = Storage.getSettings();
+    this.settings = settings;
+    // Check if it's first run
+    if (settings.firstRun === true) {
+      return true;
+    }
+    return false;
   }
 }
