@@ -9,6 +9,7 @@ export class TodoController {
     this.settings = null;
     this.loadTodoList();
     this.initBindings();
+    this.loadTheme();
     this.renderTodoList();
     this.view.connectModalToController(this);
     this.view.connetDialogueToController(this);
@@ -76,6 +77,9 @@ export class TodoController {
         this.view.searchText = "";
         this.renderTodoList();
       }
+    });
+    this.view.themeToggle.addEventListener('click', () => {
+      this.switchTheme();
     });
   }
 
@@ -165,6 +169,32 @@ export class TodoController {
       Storage.saveList(this.todoList.list);
       this.renderTodoList();
     }
+  }
+
+  loadTheme() {
+    const settings = Storage.getSettings();
+    this.settings = settings;
+    console.log(`loading theme: ${settings.theme}`);
+    if (settings.theme === 'dark') {
+        document.documentElement.classList.add('dark-theme');
+    } else {
+        document.documentElement.classList.remove('dark-theme');
+    }
+  }
+
+  switchTheme() {
+    const currentTheme = this.settings.theme;
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    this.settings.theme = newTheme;
+    
+    if (newTheme === 'dark') {
+        document.documentElement.classList.add('dark-theme');
+    } else {
+        document.documentElement.classList.remove('dark-theme');
+    }
+    
+    console.log(`Theme switched to: ${newTheme}`);
+    Storage.saveSettings(this.settings);
   }
 
   isFirstRun() {

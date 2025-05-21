@@ -9,6 +9,7 @@ export class TodoView {
     this.summaryContainer = document.getElementById('summary-container');
     this.filterBtns = document.querySelectorAll('.filter-btn');
     this.searchInput = document.getElementById('search-input');
+    this.themeToggle = document.getElementById('theme-toggle');
     this.currentFilter = null;
     this.searchText = "";
     this.onReorder = null;
